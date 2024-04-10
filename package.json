@@ -22,10 +22,13 @@
   "devDependencies": {
     "@types/node": "^20.12.7",
     "pkgroll": "^2.0.2",
+    "rimraf": "^5.0.5",
+    "terser": "^5.30.3",
     "typescript": "^5.4.4"
   },
   "scripts": {
     "build": "pkgroll",
+    "build:script-tag": "rimraf dist/script-tag && tsc -p tsconfig-script-tag.json && terser dist/script-tag/index.js -c -m -o dist/script-tag/index.js",
     "dev": "pkgroll --watch"
   }
 }

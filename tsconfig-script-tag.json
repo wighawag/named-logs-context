@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"moduleResolution": "node",
+		"declaration": true,
+		"declarationMap": true,
+		"target": "ES5",
+		"module": "None",
+		"outDir": "dist/script-tag",
+		"sourceMap": false // TODO terser
+	},
+	"include": ["./script-tag"]
+}
