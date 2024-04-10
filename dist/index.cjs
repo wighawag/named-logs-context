@@ -4,8 +4,6 @@ var namedLogs = require('named-logs');
 var node_async_hooks = require('node:async_hooks');
 
 const nop = () => void 0;
-const W = globalThis;
-const oldConsole = W.console;
 const disabledRegexps = [];
 const enabledRegexps = [];
 const context = new node_async_hooks.AsyncLocalStorage();
@@ -152,28 +150,6 @@ function processNamespaces(namespaces, { disabledRegexps: disabledRegexps2, enab
     func(namespace, enabled(namespace, { disabledRegexps: disabledRegexps2, enabledRegexps: enabledRegexps2 }));
   }
 }
-function replaceConsole(namespace = "console") {
-  const logger = factory(namespace);
-  W.console = {
-    ...logger,
-    clear: oldConsole.clear.bind(oldConsole),
-    count: nop,
-    countReset: nop,
-    dirxml: nop,
-    // TODO ?
-    exception: nop,
-    group: nop,
-    groupCollapsed: nop,
-    groupEnd: nop,
-    timeStamp: nop,
-    profile: nop,
-    profileEnd: nop
-    // timeStamp: oldConsole.timeStamp.bind(oldConsole),
-    // profile: (oldConsole as any).profile.bind(oldConsole),
-    // profileEnd: (oldConsole as any).profileEnd.bind(oldConsole),
-  };
-  return oldConsole;
-}
 function hookup() {
   namedLogs.hook(factory);
 }
@@ -193,5 +169,4 @@ global._logFactory = factory;
 
 exports.factory = factory;
 exports.hookup = hookup;
-exports.replaceConsole = replaceConsole;
 exports.runWithLogger = runWithLogger;

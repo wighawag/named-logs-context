@@ -11,7 +11,6 @@ declare const factory: {
     disable: () => void;
     enable: (namespaces?: string) => void;
 };
-declare function replaceConsole(namespace?: string): Console;
 declare function hookup(): void;
 
-export { type CLogger, factory, hookup, replaceConsole, runWithLogger };
+export { type CLogger, factory, hookup, runWithLogger };

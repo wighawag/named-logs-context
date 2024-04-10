@@ -194,28 +194,6 @@ function processNamespaces(
 	}
 }
 
-export function replaceConsole(namespace = 'console'): Console {
-	const logger = factory(namespace);
-	W.console = {
-		...logger,
-		clear: oldConsole.clear.bind(oldConsole),
-		count: nop,
-		countReset: nop,
-		dirxml: nop, // TODO ?
-		exception: nop,
-		group: nop,
-		groupCollapsed: nop,
-		groupEnd: nop,
-		timeStamp: nop,
-		profile: nop,
-		profileEnd: nop,
-		// timeStamp: oldConsole.timeStamp.bind(oldConsole),
-		// profile: (oldConsole as any).profile.bind(oldConsole),
-		// profileEnd: (oldConsole as any).profileEnd.bind(oldConsole),
-	} as unknown as Console;
-	return oldConsole;
-}
-
 export function hookup(): void {
 	hook(factory);
 }
