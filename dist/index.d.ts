@@ -4,7 +4,14 @@ type CLogger = Logger & {
     level: number;
     enabled: boolean;
 };
-declare function runWithLogger<T extends Promise<unknown> | unknown>(logger: Logger, callback: () => T): T;
+type MiniLogger = {
+    readonly error: (...data: any[]) => void;
+    readonly warn: (...data: any[]) => void;
+    readonly info: (...data: any[]) => void;
+    readonly log: (...data: any[]) => void;
+    readonly debug: (...data: any[]) => void;
+};
+declare function runWithLogger<T extends Promise<unknown> | unknown>(logger: MiniLogger, callback: () => T): T;
 declare const factory: {
     (namespace: string): CLogger;
     level: number;

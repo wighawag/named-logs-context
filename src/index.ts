@@ -26,7 +26,7 @@ const disabledRegexps: RegExp[] = [];
 const enabledRegexps: RegExp[] = [];
 
 const context = new AsyncLocalStorage();
-export function runWithLogger<T extends Promise<unknown> | unknown>(logger: Logger, callback: () => T): T {
+export function runWithLogger<T extends Promise<unknown> | unknown>(logger: MiniLogger, callback: () => T): T {
     return context.run(logger, callback);
 }
 
