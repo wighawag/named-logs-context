@@ -165,7 +165,7 @@ if (typeof process !== "undefined") {
     factory.level = logLevels[val] || parseInt(val) || factory.level;
   }
 }
-global._logFactory = factory;
+hookup();
 
 exports.factory = factory;
 exports.hookup = hookup;

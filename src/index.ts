@@ -211,4 +211,4 @@ if (typeof process !== 'undefined') {
 	}
 }
 
-(global as any)._logFactory = factory;
+hookup();
