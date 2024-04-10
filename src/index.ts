@@ -33,15 +33,19 @@ export function runWithLogger<T extends Promise<unknown> | unknown>(logger: Mini
 function getLogFunc<T>(cLogger: CLogger, level: number): (...args: T[]) => void {
 	if (cLogger.enabled && (cLogger.level >= level || factory.level >= level)) {
         const logger = context.getStore() as MiniLogger;
-        switch (level) {
-            case 0: return logger.error.bind(logger);
-            case 1: return logger.error.bind(logger);
-            case 2: return logger.warn.bind(logger);
-            case 3: return logger.info.bind(logger);
-            case 4: return logger.log.bind(logger);
-            case 5: return logger.debug.bind(logger);
-            case 6: return logger.debug.bind(logger);
-            default: return logger.debug.bind(logger);
+        if (logger) {
+            switch (level) {
+                case 0: return logger.error.bind(logger);
+                case 1: return logger.error.bind(logger);
+                case 2: return logger.warn.bind(logger);
+                case 3: return logger.info.bind(logger);
+                case 4: return logger.log.bind(logger);
+                case 5: return logger.debug.bind(logger);
+                case 6: return logger.debug.bind(logger);
+                default: return logger.debug.bind(logger);
+            }
+        } else {
+            return nop;
         }
 	} else {
 		return nop;
