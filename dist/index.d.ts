@@ -4,7 +4,7 @@ type CLogger = Logger & {
     level: number;
     enabled: boolean;
 };
-declare function runWithLogger(logger: Logger, callback: () => unknown): unknown;
+declare function runWithLogger<T extends Promise<unknown> | unknown>(logger: Logger, callback: () => T): T;
 declare const factory: {
     (namespace: string): CLogger;
     level: number;
