@@ -30,7 +30,7 @@ type G = Record<string, unknown> & {
 	console: Console;
 };
 
-const nop = () => undefined;
+const noop = () => undefined;
 const W: G = globalThis as unknown as G;
 const oldConsole = W.console;
 
@@ -58,10 +58,10 @@ function getLogFunc<T>(cLogger: CLogger, level: number): (...args: T[]) => void 
                 default: return logger.debug.bind(logger);
             }
         } else {
-            return nop;
+            return noop;
         }
 	} else {
-		return nop;
+		return noop;
 	}
 }
 
@@ -82,11 +82,22 @@ const factory: {
 	}
 	let level = factory.level;
 
+	const timeLabels: {[label: string]: number} = {};
+
 	return (logger = loggers[namespace] =
 		{
 			get assert() {
-				// return bindCall(oldConsole.assert, logger,  1);
-                return nop;
+				const f = getLogFunc(logger,  1);
+				if (f == noop) {
+					return noop;
+				} else {
+					return (conditions?: boolean, ...data: any[]) => {
+						if (!conditions) {
+							f(...data);
+						}
+
+					}
+				}
 			},
 			get error() {
 				return getLogFunc(logger,  1);
@@ -116,13 +127,38 @@ const factory: {
 				return getLogFunc(logger,  5);
 			},
 			get time() {
-				return nop;
+				const f = getLogFunc(logger,  5);
+				if (f == noop) {
+					return noop;
+				} else {
+					return (label?: string) => {
+						timeLabels[label || 'default'] = performance.now();
+					}
+				}
 			},
 			get timeEnd() {
-				return nop;
+				const f = getLogFunc(logger,  5);
+				if (f == noop) {
+					return noop;
+				} else {
+					return (label?: string) => {
+						const start = timeLabels[label || 'default'] || performance.now();
+						const now = performance.now();
+						f(`${label} : total : ${now - start}ms`)
+					}
+				}
 			},
 			get timeLog() {
-				return nop;
+				const f = getLogFunc(logger,  5);
+				if (f == noop) {
+					return noop;
+				} else {
+					return (label?: string) => {
+						const start = timeLabels[label || 'default'] || performance.now();
+						const now = performance.now();
+						f(`${label} : -  ${now - start}ms`)
+					}
+				  } 
 			},
 			get level() {
 				return level;
