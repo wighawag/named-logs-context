@@ -1,6 +1,6 @@
 {
   "name": "named-logs-context",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -22,7 +22,9 @@
   "devDependencies": {
     "@types/node": "^20.12.7",
     "pkgroll": "^2.0.2",
+    "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
+    "set-defaults": "^0.0.2",
     "terser": "^5.30.3",
     "typescript": "^5.4.4"
   },
