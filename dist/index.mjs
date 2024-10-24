@@ -93,7 +93,14 @@ const factory = (namespace) => {
     enabled: enabled(namespace, { disabledRegexps, enabledRegexps })
   };
 };
-const logLevels = { error: 1, warn: 2, info: 3, log: 4, debug: 5, trace: 6 };
+const logLevels = {
+  error: 1,
+  warn: 2,
+  info: 3,
+  log: 4,
+  debug: 5,
+  trace: 6
+};
 factory.level = 2;
 factory.disable = () => {
   disabledRegexps.splice(0, disabledRegexps.length);
@@ -154,6 +161,7 @@ function processNamespaces(namespaces, { disabledRegexps: disabledRegexps2, enab
 }
 function hookup() {
   hook(factory);
+  globalThis._runWithLogger = runWithLogger;
 }
 if (typeof process !== "undefined") {
   let val = process.env["NAMED_LOGS"];
